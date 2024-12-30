@@ -1,4 +1,4 @@
-package klerer.citiBike;
+package klerer.citibike;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;

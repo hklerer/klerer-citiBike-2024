@@ -1,4 +1,4 @@
-package klerer.citiBike.json;
+package klerer.citibike.json;
 
 public class Data {
     public Station[] stations;

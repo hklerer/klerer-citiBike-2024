@@ -1,7 +1,7 @@
-package klerer.citiBike;
+package klerer.citibike;
 
-import klerer.citiBike.json.Station;
-import klerer.citiBike.json.Stations;
+import klerer.citibike.json.Station;
+import klerer.citibike.json.Stations;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

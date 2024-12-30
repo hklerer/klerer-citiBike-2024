@@ -1,6 +1,6 @@
-package klerer.citiBike;
+package klerer.citibike;
 
-import klerer.citiBike.json.Station;
+import klerer.citibike.json.Station;
 
 import java.util.Objects;
 
@@ -8,7 +8,7 @@ public class FindStations {
 
     public Station stationById(Station[] stations, String stationId) {
         Station foundStation = null;
-        for (Station station: stations) {
+        for (Station station : stations) {
             if (Objects.equals(stationId, station.station_id)) {
                 foundStation = station;
                 return station;
@@ -57,9 +57,9 @@ public class FindStations {
         double differenceInLon = lon2Rad - lon1Rad;
 
         // Haversine formula
-        double a = Math.sin(differenceInLat / 2) * Math.sin(differenceInLat / 2) +
-                Math.cos(lat1Rad) * Math.cos(lat2Rad) *
-                        Math.sin(differenceInLon / 2) * Math.sin(differenceInLon / 2);
+        double a = Math.sin(differenceInLat / 2) * Math.sin(differenceInLat / 2)
+                + Math.cos(lat1Rad) * Math.cos(lat2Rad)
+                * Math.sin(differenceInLon / 2) * Math.sin(differenceInLon / 2);
 
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
