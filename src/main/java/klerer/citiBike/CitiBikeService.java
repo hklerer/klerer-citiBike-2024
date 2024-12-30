@@ -1,4 +1,7 @@
+package klerer.citiBike;
+
 import io.reactivex.rxjava3.core.Single;
+import klerer.citiBike.json.Stations;
 import retrofit2.http.GET;
 
 public interface CitiBikeService {
