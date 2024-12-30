@@ -1,12 +1,13 @@
 package klerer.citiBike;
 
-import klerer.citiBike.json.StationResponse;
+import klerer.citiBike.json.Data;
+import klerer.citiBike.json.Station;
 
 public class FindStations {
 
-    public StationResponse stationStatus(String stationId) {
-        StationResponse foundStation = null;
-        for (StationResponse station: ) {
+    public Station stationStatus(String stationId) {
+        Station foundStation = null;
+        for (Station station: ) {
 
         }
 
@@ -14,7 +15,7 @@ public class FindStations {
 
     }
 
-    public StationResponse closestStation(int lon, int lat) {
+    public Station closestStation(int lon, int lat) {
 
         return;
 
