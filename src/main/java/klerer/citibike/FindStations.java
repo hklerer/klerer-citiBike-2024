@@ -7,28 +7,25 @@ import java.util.Objects;
 public class FindStations {
 
     public Station stationById(Station[] stations, String stationId) {
-        Station foundStation = null;
         for (Station station : stations) {
             if (Objects.equals(stationId, station.station_id)) {
-                foundStation = station;
                 return station;
             }
         }
-        return foundStation;
+        return null;
 
     }
 
     public Station closestStationWithBikes(Station[] stations, double lat, double lon) {
-        Station closestStation = null;
         int closest = 0;
 
         for (Station station : stations) {
             if ((calculateDistance(lat, lon, station.lat, station.lon)) > closest
                     && station.num_bikes_available > 0) {
-                closestStation = station;
+                return station;
             }
         }
-        return closestStation;
+        return null;
 
     }
 
