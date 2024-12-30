@@ -18,7 +18,7 @@ public class FindStations {
 
     }
 
-    public Station closestStationWithBikes(Station[] stations, int lat, int lon) {
+    public Station closestStationWithBikes(Station[] stations, double lat, double lon) {
         Station closestStation = null;
         int closest = 0;
 
@@ -32,7 +32,7 @@ public class FindStations {
 
     }
 
-    public Station closestStationWithSlots(Station[] stations, int lat, int lon) {
+    public Station closestStationWithSlots(Station[] stations, double lat, double lon) {
         Station closestStation = null;
         int closest = 0;
 
