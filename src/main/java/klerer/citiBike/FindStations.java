@@ -11,6 +11,7 @@ public class FindStations {
         for (Station station: stations) {
             if (Objects.equals(stationId, station.station_id)) {
                 foundStation = station;
+                return station;
             }
         }
         return foundStation;
