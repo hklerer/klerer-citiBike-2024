@@ -29,14 +29,16 @@ public class FindStations {
         Station closestStation = null;
         double closest = Double.MAX_VALUE;
 
-        for (Station station : stationStatus.data.stations) {
-            for (Station s : stationInfo.data.stations) {
-                if (station.num_bikes_available > 0) {
-                    double distance = calculateDistance(lat, lon, s.lat, s.lon);
+        for (Station s : stationStatus.data.stations) {
+            for (Station station : stationInfo.data.stations) {
+                String stationId = stationById(station.station_id).toString();
+                if (Objects.equals(s.station_id, stationId) && station.num_bikes_available > 0) {
+                    double distance = calculateDistance(lat, lon, station.lat, station.lon);
                     if (distance < closest) {
                         closestStation = station;
                         closest = distance;
                     }
+
                 }
             }
         }
@@ -80,7 +82,6 @@ public class FindStations {
 
         return R * c;
     }
-
 
 
 }
