@@ -15,7 +15,7 @@ public class FindStations {
 
     }
 
-    public Station stationById(String stationId) {
+    public Station stationStatusById(String stationId) {
         for (Station station : stationStatus.data.stations) {
             if (Objects.equals(stationId, station.station_id)) {
                 return station;
@@ -29,15 +29,13 @@ public class FindStations {
         Station closestStation = null;
         double closest = Double.MAX_VALUE;
 
-        for (Station s : stationStatus.data.stations) {
             for (Station station : stationInfo.data.stations) {
-                String stationId = stationById(station.station_id).toString();
-                if (Objects.equals(s.station_id, stationId) && station.num_bikes_available > 0) {
+                Station stationStatus = stationStatusById(station.station_id);
+                if (stationStatus.num_bikes_available > 0) {
                     double distance = calculateDistance(lat, lon, station.lat, station.lon);
                     if (distance < closest) {
-                        closestStation = station;
+                        closestStation = mergeStations(station, stationStatus);
                         closest = distance;
-                    }
 
                 }
             }
@@ -49,18 +47,33 @@ public class FindStations {
         Station closestStation = null;
         double closest = Double.MAX_VALUE;
 
-        for (Station station : stationStatus.data.stations) {
-            if (station.num_docks_available > 0) {
+        for (Station station : stationInfo.data.stations) {
+            Station stationStatus = stationStatusById(station.station_id);
+            if (stationStatus.num_docks_available > 0) {
                 double distance = calculateDistance(lat, lon, station.lat, station.lon);
                 if (distance < closest) {
-                    closestStation = station;
+                    closestStation = mergeStations(station, stationStatus);
                     closest = distance;
+
                 }
             }
         }
         return closestStation;
     }
 
+    private Station mergeStations(Station stationInfo, Station stationStatus) {
+        Station mergedStation = new Station();
+
+        mergedStation.station_id = stationInfo.station_id;
+        mergedStation.name = stationInfo.name;
+        mergedStation.lat = stationInfo.lat;
+        mergedStation.lon = stationInfo.lon;
+
+        mergedStation.num_bikes_available = stationStatus.num_bikes_available;
+        mergedStation.num_docks_available = stationStatus.num_docks_available;
+
+        return mergedStation;
+    }
 
     public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         final double R = 6371.0;
@@ -82,6 +95,5 @@ public class FindStations {
 
         return R * c;
     }
-
 
 }

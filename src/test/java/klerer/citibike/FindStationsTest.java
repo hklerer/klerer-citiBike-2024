@@ -19,7 +19,7 @@ public class FindStationsTest {
         String id = stations[0].station_id;
 
         // when
-        Station station = findStations.stationById(id);
+        Station station = findStations.stationStatusById(id);
 
         // then
         assertNotNull(station);
@@ -43,7 +43,7 @@ public class FindStationsTest {
         // then
         assertNotNull(closestStation);
         assertNotEquals(0, closestStation.num_bikes_available);
-        assertEquals("11 Ave & W 59 St", closestStation.name);
+        assertEquals("W 59 St & 10 Ave", closestStation.name);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class FindStationsTest {
         // then
         assertNotNull(closestStation);
         assertNotEquals(0, closestStation.num_docks_available);
-        assertEquals("11 Ave & W 59 St", closestStation.name);
+        assertEquals("W 59 St & 10 Ave", closestStation.name);
     }
 
 }
