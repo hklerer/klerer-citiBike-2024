@@ -30,11 +30,13 @@ public class FindStations {
         double closest = Double.MAX_VALUE;
 
         for (Station station : stationStatus.data.stations) {
-            if (station.num_bikes_available > 0) {
-                double distance = calculateDistance(lat, lon, station.lat, station.lon);
-                if (distance < closest) {
-                    closestStation = station;
-                    closest = distance;
+            for (Station s : stationInfo.data.stations) {
+                if (station.num_bikes_available > 0) {
+                    double distance = calculateDistance(lat, lon, s.lat, s.lon);
+                    if (distance < closest) {
+                        closestStation = station;
+                        closest = distance;
+                    }
                 }
             }
         }
