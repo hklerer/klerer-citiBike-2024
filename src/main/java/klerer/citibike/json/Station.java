@@ -21,4 +21,5 @@ public class Station {
     public int num_bikes_available;
     //CHECKSTYLE:ON
 
+
 }

@@ -6,18 +6,20 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FindStationsTest {
+public class FindStationsTest {
     @Test
     public void stationById() {
         // given
-        FindStations findStations = new FindStations();
         CitiBikeService service = new CitiBikeServiceFactory().getService();
-        Stations stationInfo = service.stationStatus().blockingGet();
+        Stations stationInfo = service.stationInfo().blockingGet();
+        Stations stationStatus = service.stationStatus().blockingGet();
+        FindStations findStations = new FindStations(stationInfo, stationStatus);
+
         Station[] stations = stationInfo.data.stations;
         String id = stations[0].station_id;
 
         // when
-        Station station = findStations.stationById(stations, id);
+        Station station = findStations.stationById(id);
 
         // then
         assertNotNull(station);
@@ -27,18 +29,19 @@ class FindStationsTest {
     @Test
     public void closestStationWithBikes() {
         // given
-        FindStations findStations = new FindStations();
         CitiBikeService service = new CitiBikeServiceFactory().getService();
-        Stations stationInfo = service.stationStatus().blockingGet();
-        Station[] stations = stationInfo.data.stations;
+        Stations stationInfo = service.stationInfo().blockingGet();
+        Stations stationStatus = service.stationStatus().blockingGet();
+
         double lat = 40.77185400202356;
         double lon = -73.98830454232788;
 
         // when
-        Station closestStation = findStations.closestStationWithBikes(stations, lat, lon);
+        FindStations findStations = new FindStations(stationInfo, stationStatus);
+        Station closestStation = findStations.closestStationWithBikes(lat, lon);
 
         // then
-        assertNotNull(stations);
+        assertNotNull(closestStation);
         assertNotEquals(0, closestStation.num_bikes_available);
         assertEquals("11 Ave & W 59 St", closestStation.name);
     }
@@ -46,18 +49,19 @@ class FindStationsTest {
     @Test
     public void closestStationWithSlots() {
         // given
-        FindStations findStations = new FindStations();
         CitiBikeService service = new CitiBikeServiceFactory().getService();
-        Stations stationInfo = service.stationStatus().blockingGet();
-        Station[] stations = stationInfo.data.stations;
+        Stations stationInfo = service.stationInfo().blockingGet();
+        Stations stationStatus = service.stationStatus().blockingGet();
+
         double lat = 40.77185400202356;
         double lon = -73.98830454232788;
 
         // when
-        Station closestStation = findStations.closestStationWithSlots(stations, lat, lon);
+        FindStations findStations = new FindStations(stationInfo, stationStatus);
+        Station closestStation = findStations.closestStationWithSlots(lat, lon);
 
         // then
-        assertNotNull(stations);
+        //assertNotNull(closestStation);
         assertNotEquals(0, closestStation.num_docks_available);
         assertEquals("11 Ave & W 59 St", closestStation.name);
     }
