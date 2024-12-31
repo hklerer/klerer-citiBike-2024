@@ -8,6 +8,7 @@ import java.util.Objects;
 public class FindStations {
     private final Stations stationInfo;
     private final Stations stationStatus;
+
     public FindStations(Stations stationInfo, Stations stationStatus) {
         this.stationInfo = stationInfo;
         this.stationStatus = stationStatus;
@@ -28,28 +29,26 @@ public class FindStations {
         Station closestStation = null;
         double closest = Double.MAX_VALUE;
 
-        for (Station station : stationInfo.data.stations) {
+        for (Station station : stationStatus.data.stations) {
             if (station.num_bikes_available > 0) {
                 double distance = calculateDistance(lat, lon, station.lat, station.lon);
-                if (distance > closest) {
+                if (distance < closest) {
                     closestStation = station;
                     closest = distance;
                 }
             }
         }
         return closestStation;
-
     }
 
     public Station closestStationWithSlots(double lat, double lon) {
         Station closestStation = null;
         double closest = Double.MAX_VALUE;
 
-
-        for (Station station : stationInfo.data.stations) {
+        for (Station station : stationStatus.data.stations) {
             if (station.num_docks_available > 0) {
                 double distance = calculateDistance(lat, lon, station.lat, station.lon);
-                if (distance > closest) {
+                if (distance < closest) {
                     closestStation = station;
                     closest = distance;
                 }

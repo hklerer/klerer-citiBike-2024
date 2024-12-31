@@ -61,7 +61,7 @@ public class FindStationsTest {
         Station closestStation = findStations.closestStationWithSlots(lat, lon);
 
         // then
-        //assertNotNull(closestStation);
+        assertNotNull(closestStation);
         assertNotEquals(0, closestStation.num_docks_available);
         assertEquals("11 Ave & W 59 St", closestStation.name);
     }
