@@ -36,9 +36,9 @@ public class CitiBikeComponent extends JComponent {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
-        MouseInputListener listener = new PanMouseInputListener(mapViewer);
-        mapViewer.addMouseListener(listener);
-        mapViewer.addMouseMotionListener(listener);
+        MouseInputListener mia = new PanMouseInputListener(mapViewer);
+        mapViewer.addMouseListener(mia);
+        mapViewer.addMouseMotionListener(mia);
         mapViewer.addMouseListener(new CenterMapListener(mapViewer));
         mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCursor(mapViewer));
         mapViewer.addKeyListener(new PanKeyListener(mapViewer));

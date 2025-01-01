@@ -5,9 +5,9 @@ import java.awt.*;
 
 public class CitiBikeFrame extends JFrame {
 
-    public CitiBikeFrame () {
+    public CitiBikeFrame() {
         setTitle("CitiBike Map");
-        setSize(600,800);
+        setSize(600, 800);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
