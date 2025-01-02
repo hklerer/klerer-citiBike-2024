@@ -10,9 +10,14 @@ import org.jxmapviewer.viewer.TileFactoryInfo;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 
 public class CitiBikeComponent extends JComponent {
     private final JXMapViewer mapViewer;
+    private GeoPosition from;
+    private GeoPosition to;
 
     public CitiBikeComponent() {
         mapViewer = new JXMapViewer();
@@ -45,6 +50,38 @@ public class CitiBikeComponent extends JComponent {
 
         setLayout(new BorderLayout());
         add(mapViewer, BorderLayout.CENTER);
+
+        mapViewer.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+                Point2D.Double point = new Point2D.Double(x, y);
+                GeoPosition position = mapViewer.convertPointToGeoPosition(point);
+                if (from == null) {
+                    from = position;
+                } else {
+                    to = position;
+                }
+            }
+        });
+
+    }
+
+    public GeoPosition getFrom() {
+        return from;
+    }
+
+    public void setFrom(GeoPosition from) {
+       this.from = from;
+    }
+
+    public GeoPosition getTo() {
+        return to;
+    }
+
+    public void setTo(GeoPosition to) {
+        this.to = to;
     }
 
     public JXMapViewer getMapViewer() {
