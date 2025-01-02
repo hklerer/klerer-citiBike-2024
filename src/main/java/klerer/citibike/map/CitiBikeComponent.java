@@ -25,21 +25,13 @@ public class CitiBikeComponent extends JComponent {
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
         mapViewer.setTileFactory(tileFactory);
 
-        // Use 8 threads in parallel to load the tiles
         tileFactory.setThreadPoolSize(8);
 
-        // Set the focus
         GeoPosition nyc = new GeoPosition(40.7128, -74.0060);
 
         mapViewer.setZoom(7);
         mapViewer.setAddressLocation(nyc);
 
-        // Display the viewer in a JFrame
-        JFrame frame = new JFrame("JXMapviewer2 Example 1");
-        frame.getContentPane().add(mapViewer);
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
 
         MouseInputListener mia = new PanMouseInputListener(mapViewer);
         mapViewer.addMouseListener(mia);

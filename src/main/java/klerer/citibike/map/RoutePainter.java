@@ -90,4 +90,8 @@ public class RoutePainter implements Painter<JXMapViewer>
             lastY = (int) pt.getY();
         }
     }
+
+    public void setTrack(List<GeoPosition> newTrack) {
+        this.track = newTrack;
+    }
 }
