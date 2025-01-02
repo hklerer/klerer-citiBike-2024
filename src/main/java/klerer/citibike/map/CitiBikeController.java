@@ -9,10 +9,6 @@ import org.jxmapviewer.viewer.Waypoint;
 import org.jxmapviewer.viewer.WaypointPainter;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import java.awt.geom.Point2D;
 
 public class CitiBikeController {
     CitiBikeComponent component;
@@ -21,36 +17,39 @@ public class CitiBikeController {
     JLabel toLabel;
     RoutePainter routePainter;
     WaypointPainter<Waypoint> waypointPainter;
-    Location from = new Location();
-    Location to = new Location();
+    Location from;
+    Location to;
     LambdaService lambdaService = new LambdaServiceFactory().getService();
+    GeoPosition fromgp = component.getFrom();
+    GeoPosition togp = component.getTo();
 
 
-    public CitiBikeController (JLabel fromLabel, JLabel toLabel, CitiBikeComponent view) {
+    public CitiBikeController(JLabel fromLabel, JLabel toLabel, CitiBikeComponent view) {
         this.fromLabel = fromLabel;
         this.toLabel = toLabel;
         this.component = view;
 
     }
 
+
     public void drawMap() {
-        CitiBikeRequest request = new CitiBikeRequest();
+        CitiBikeRequest request = new CitiBikeRequest(from, to);
         request.from = from;
         request.to = to;
-        Disposable disposable = lambdaService.sendRequest(request)
+        Disposable disposable = lambdaService.getStations(request)
                 // tells Rx to request the data on a background Thread
                 .subscribeOn(Schedulers.io())
                 // tells Rx to handle the response on Swing's main Thread
                 .observeOn(Schedulers.from(SwingUtilities::invokeLater))
                 //.observeOn(AndroidSchedulers.mainThread()) // Instead use this on Android only
                 .subscribe(
-                        (response) -> handleResponse(response),
+                        (response) -> handleResponse(request),
                         Throwable::printStackTrace);
+
     }
 
     public void setFromAndTo() {
-        GeoPosition fromgp = component.getFrom();
-        GeoPosition togp = component.getTo();
+
         if (fromgp != null && togp != null) {
             fromLabel.setText(fromgp.getLatitude() + ", "
                     + fromgp.getLongitude());
@@ -68,8 +67,6 @@ public class CitiBikeController {
     public void handleResponse(CitiBikeRequest response) {
         System.out.println("got a response");
     }
-
-
 
 
 }

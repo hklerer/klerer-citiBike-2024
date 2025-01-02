@@ -1,11 +1,10 @@
 package klerer.citibike.map;
 
-import org.jxmapviewer.JXMapViewer;
-import org.jxmapviewer.OSMTileFactoryInfo;
+import org.jxmapviewer.*;
 import org.jxmapviewer.input.*;
-import org.jxmapviewer.viewer.DefaultTileFactory;
-import org.jxmapviewer.viewer.GeoPosition;
-import org.jxmapviewer.viewer.TileFactoryInfo;
+import org.jxmapviewer.painter.CompoundPainter;
+import org.jxmapviewer.painter.Painter;
+import org.jxmapviewer.viewer.*;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -13,6 +12,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.util.List;
 
 public class CitiBikeComponent extends JComponent {
     private final JXMapViewer mapViewer;
@@ -66,6 +66,12 @@ public class CitiBikeComponent extends JComponent {
             }
         });
 
+    }
+
+    public void drawRoutes(RoutePainter routePainter, WaypointPainter<Waypoint> waypointPainter) {
+        List<Painter<JXMapViewer>> painter = List.of(routePainter, waypointPainter);
+        CompoundPainter<JXMapViewer> compoundPainter = new CompoundPainter<>(painter);
+        mapViewer.setOverlayPainter(compoundPainter);
     }
 
     public GeoPosition getFrom() {
