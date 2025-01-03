@@ -14,16 +14,14 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CitiBikeController {
     CitiBikeComponent view;
     JLabel fromLabel;
     JLabel toLabel;
     RoutePainter routePainter;
-    WaypointPainter<Waypoint> waypointPainter;
+    WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
     Location from;
     Location to;
     LambdaService lambdaService = new LambdaServiceFactory().getService();
@@ -32,6 +30,7 @@ public class CitiBikeController {
     GeoPosition startgp;
     GeoPosition endgp;
     List<GeoPosition> routePoints = new ArrayList<>();
+    Set<Waypoint> waypoints = new HashSet<>();
 
     public CitiBikeController(JLabel fromLabel, JLabel toLabel, CitiBikeComponent view) {
         this.fromLabel = fromLabel;
@@ -62,8 +61,6 @@ public class CitiBikeController {
         });
     }
 
-
-
     public void drawMap() {
         CitiBikeRequest request = new CitiBikeRequest(from, to);
         request.from = from;
@@ -81,18 +78,22 @@ public class CitiBikeController {
     }
 
     public void updateMap() {
-        routePoints.add(fromgp);
-        routePoints.add(togp);
-        routePoints.add(startgp);
-        routePoints.add(endgp);
-        routePainter = new RoutePainter(routePoints);
-
-        waypointPainter.setWaypoints(Set.of(
+        waypoints = Set.of(
                 new DefaultWaypoint(fromgp),
                 new DefaultWaypoint(startgp),
                 new DefaultWaypoint(endgp),
                 new DefaultWaypoint(togp)
-        ));
+        );
+
+        routePoints.clear();
+        routePoints.add(fromgp);
+        routePoints.add(togp);
+        routePoints.add(startgp);
+        routePoints.add(endgp);
+
+        routePainter = new RoutePainter(routePoints);
+        drawRoute();
+
         zoomToFit();
     }
 
