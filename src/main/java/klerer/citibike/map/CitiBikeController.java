@@ -3,6 +3,7 @@ package klerer.citibike.map;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import klerer.citibike.lambda.CitiBikeRequest;
+import klerer.citibike.lambda.CitiBikeResponse;
 import klerer.citibike.lambda.Location;
 import org.jxmapviewer.viewer.DefaultWaypoint;
 import org.jxmapviewer.viewer.GeoPosition;
@@ -73,7 +74,7 @@ public class CitiBikeController {
                 // tells Rx to handle the response on Swing's main Thread
                 .observeOn(Schedulers.from(SwingUtilities::invokeLater))
                 .subscribe(
-                        (response) -> handleResponse(request),
+                        this::handleResponse,
                         Throwable::printStackTrace
                 );
         updateMap();
@@ -114,7 +115,7 @@ public class CitiBikeController {
         }
     }
 
-    public void handleResponse(CitiBikeRequest response) {
+    public void handleResponse(CitiBikeResponse response) {
         startgp = new GeoPosition(response.start.lat, response.start.lon);
         endgp = new GeoPosition(response.end.lat, response.end.lon);
 
