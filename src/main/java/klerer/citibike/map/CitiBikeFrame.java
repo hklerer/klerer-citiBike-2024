@@ -24,7 +24,6 @@ public class CitiBikeFrame extends JFrame {
         fromLabel = new JLabel();
         toLabel = new JLabel();
         controller = new CitiBikeController(fromLabel, toLabel, view);
-        controller.setFromAndTo();
 
         map = new JButton("Map");
         map.addActionListener(new ActionListener()   {

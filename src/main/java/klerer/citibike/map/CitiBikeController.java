@@ -56,7 +56,22 @@ public class CitiBikeController {
 
                 }
 
-                setFromAndTo();
+                fromgp = view.getFrom();
+                togp = view.getTo();
+
+                if (fromgp != null && togp != null) {
+                    fromLabel.setText(fromgp.getLatitude() + ", " + fromgp.getLongitude());
+                    toLabel.setText(togp.getLatitude() + ", " + togp.getLongitude());
+
+                    if (from != null) {
+                        from.lat = fromgp.getLatitude();
+                        from.lon = fromgp.getLongitude();
+                    }
+                    if (to != null) {
+                        to.lat = togp.getLatitude();
+                        to.lon = togp.getLongitude();
+                    }
+                }
             }
         });
     }
