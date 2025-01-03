@@ -10,13 +10,15 @@ import org.jxmapviewer.viewer.Waypoint;
 import org.jxmapviewer.viewer.WaypointPainter;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class CitiBikeController {
     CitiBikeComponent view;
-    CitiBikeFrame frame;
     JLabel fromLabel;
     JLabel toLabel;
     RoutePainter routePainter;
@@ -35,6 +37,21 @@ public class CitiBikeController {
         this.fromLabel = fromLabel;
         this.toLabel = toLabel;
         this.view = view;
+        view.getMapViewer().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+                Point2D.Double point = new Point2D.Double(x, y);
+                GeoPosition position = view.getMapViewer().convertPointToGeoPosition(point);
+                if (view.getFrom() == null) {
+                    fromgp = position;
+                } else {
+                    togp = position;
+                }
+                setFromAndTo();
+            }
+        });
     }
 
 
@@ -92,7 +109,12 @@ public class CitiBikeController {
     }
 
     public void handleResponse(CitiBikeRequest response) {
-        System.out.println("got a response");
+        System.out.println("Got a response");
+
+       // startgp = new GeoPosition(response.start.lat, response.start.lon);
+      //  endgp = new GeoPosition(response.end.lat, response.end.lon);
+
+        updateMap();
     }
 
     public void zoomToFit() {
@@ -100,6 +122,24 @@ public class CitiBikeController {
                 Set.of(fromgp, startgp, endgp, togp),
                 1.0
         );
+    }
+
+    public void drawRoute() {
+        view.drawRoutes(routePainter, waypointPainter);
+    }
+
+    public void clearMap() {
+        routePainter.setTrack(new ArrayList<>());
+        waypointPainter.setWaypoints(Set.of());
+
+        fromLabel.setText("");
+        toLabel.setText("");
+
+        fromgp = null;
+        togp = null;
+        startgp = null;
+        endgp = null;
+        view.originalMapState();
     }
 
 }

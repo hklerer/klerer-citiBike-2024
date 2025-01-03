@@ -9,9 +9,7 @@ import org.jxmapviewer.viewer.*;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
+
 import java.util.List;
 
 public class CitiBikeComponent extends JComponent {
@@ -27,11 +25,7 @@ public class CitiBikeComponent extends JComponent {
 
         tileFactory.setThreadPoolSize(8);
 
-        GeoPosition nyc = new GeoPosition(40.7128, -74.0060);
-
-        mapViewer.setZoom(7);
-        mapViewer.setAddressLocation(nyc);
-
+        originalMapState();
 
         MouseInputListener mia = new PanMouseInputListener(mapViewer);
         mapViewer.addMouseListener(mia);
@@ -42,21 +36,6 @@ public class CitiBikeComponent extends JComponent {
 
         setLayout(new BorderLayout());
         add(mapViewer, BorderLayout.CENTER);
-
-        mapViewer.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
-                Point2D.Double point = new Point2D.Double(x, y);
-                GeoPosition position = mapViewer.convertPointToGeoPosition(point);
-                if (from == null) {
-                    from = position;
-                } else {
-                    to = position;
-                }
-            }
-        });
 
     }
 
@@ -84,5 +63,11 @@ public class CitiBikeComponent extends JComponent {
 
     public JXMapViewer getMapViewer() {
         return mapViewer;
+    }
+
+    public void originalMapState() {
+        GeoPosition nyc = new GeoPosition(40.7128, -74.0060);
+        mapViewer.setZoom(7);
+        mapViewer.setAddressLocation(nyc);
     }
 }
