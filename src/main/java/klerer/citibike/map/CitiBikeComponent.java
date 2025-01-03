@@ -36,7 +36,6 @@ public class CitiBikeComponent extends JComponent {
 
         setLayout(new BorderLayout());
         add(mapViewer, BorderLayout.CENTER);
-
     }
 
     public void drawRoutes(RoutePainter routePainter, WaypointPainter<Waypoint> waypointPainter) {
@@ -50,7 +49,7 @@ public class CitiBikeComponent extends JComponent {
     }
 
     public void setFrom(GeoPosition from) {
-       this.from = from;
+        this.from = from;
     }
 
     public GeoPosition getTo() {

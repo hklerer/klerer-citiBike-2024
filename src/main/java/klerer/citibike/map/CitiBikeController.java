@@ -32,11 +32,11 @@ public class CitiBikeController {
     GeoPosition endgp;
     List<GeoPosition> routePoints = new ArrayList<>();
 
-
     public CitiBikeController(JLabel fromLabel, JLabel toLabel, CitiBikeComponent view) {
         this.fromLabel = fromLabel;
         this.toLabel = toLabel;
         this.view = view;
+
         view.getMapViewer().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -44,15 +44,23 @@ public class CitiBikeController {
                 int y = e.getY();
                 Point2D.Double point = new Point2D.Double(x, y);
                 GeoPosition position = view.getMapViewer().convertPointToGeoPosition(point);
+
                 if (view.getFrom() == null) {
+                    view.setFrom(position);
                     fromgp = position;
+                    fromLabel.setText(fromgp.getLatitude() + ", " + fromgp.getLongitude());
                 } else {
+                    view.setTo(position);
                     togp = position;
+                    fromLabel.setText(fromgp.getLatitude() + ", " + fromgp.getLongitude());
+
                 }
+
                 setFromAndTo();
             }
         });
     }
+
 
 
     public void drawMap() {
@@ -64,12 +72,11 @@ public class CitiBikeController {
                 .subscribeOn(Schedulers.io())
                 // tells Rx to handle the response on Swing's main Thread
                 .observeOn(Schedulers.from(SwingUtilities::invokeLater))
-                //.observeOn(AndroidSchedulers.mainThread()) // Instead use this on Android only
                 .subscribe(
                         (response) -> handleResponse(request),
-                        Throwable::printStackTrace);
+                        Throwable::printStackTrace
+                );
         updateMap();
-
     }
 
     public void updateMap() {
@@ -84,35 +91,32 @@ public class CitiBikeController {
                 new DefaultWaypoint(startgp),
                 new DefaultWaypoint(endgp),
                 new DefaultWaypoint(togp)
-
         ));
         zoomToFit();
     }
-
 
     public void setFromAndTo() {
         fromgp = view.getFrom();
         togp = view.getTo();
 
         if (fromgp != null && togp != null) {
-            fromLabel.setText(fromgp.getLatitude() + ", "
-                    + fromgp.getLongitude());
-            toLabel.setText(togp.getLatitude() + ", "
-                    + togp.getLongitude());
+            fromLabel.setText(fromgp.getLatitude() + ", " + fromgp.getLongitude());
+            toLabel.setText(togp.getLatitude() + ", " + togp.getLongitude());
 
-            from.lat = fromgp.getLatitude();
-            from.lon = fromgp.getLongitude();
-            to.lat = togp.getLatitude();
-            to.lon = togp.getLongitude();
+            if (from != null) {
+                from.lat = fromgp.getLatitude();
+                from.lon = fromgp.getLongitude();
+            }
+            if (to != null) {
+                to.lat = togp.getLatitude();
+                to.lon = togp.getLongitude();
+            }
         }
-
     }
 
     public void handleResponse(CitiBikeRequest response) {
-        System.out.println("Got a response");
-
-       // startgp = new GeoPosition(response.start.lat, response.start.lon);
-      //  endgp = new GeoPosition(response.end.lat, response.end.lon);
+        startgp = new GeoPosition(response.start.lat, response.start.lon);
+        endgp = new GeoPosition(response.end.lat, response.end.lon);
 
         updateMap();
     }
@@ -141,5 +145,4 @@ public class CitiBikeController {
         endgp = null;
         view.originalMapState();
     }
-
 }
