@@ -77,9 +77,9 @@ public class CitiBikeController {
     }
 
     public void drawMap() {
+        Location from = new Location(fromgp.getLatitude(), fromgp.getLongitude());
+        Location to = new Location(togp.getLatitude(), togp.getLongitude());
         CitiBikeRequest request = new CitiBikeRequest(from, to);
-        request.from = from;
-        request.to = to;
         Disposable disposable = lambdaService.getStations(request)
                 // tells Rx to request the data on a background Thread
                 .subscribeOn(Schedulers.io())
@@ -89,7 +89,6 @@ public class CitiBikeController {
                         this::handleResponse,
                         Throwable::printStackTrace
                 );
-        updateMap();
     }
 
     public void updateMap() {
@@ -110,25 +109,6 @@ public class CitiBikeController {
         drawRoute();
 
         zoomToFit();
-    }
-
-    public void setFromAndTo() {
-        fromgp = view.getFrom();
-        togp = view.getTo();
-
-        if (fromgp != null && togp != null) {
-            fromLabel.setText(fromgp.getLatitude() + ", " + fromgp.getLongitude());
-            toLabel.setText(togp.getLatitude() + ", " + togp.getLongitude());
-
-            if (from != null) {
-                from.lat = fromgp.getLatitude();
-                from.lon = fromgp.getLongitude();
-            }
-            if (to != null) {
-                to.lat = togp.getLatitude();
-                to.lon = togp.getLongitude();
-            }
-        }
     }
 
     public void handleResponse(CitiBikeResponse response) {
