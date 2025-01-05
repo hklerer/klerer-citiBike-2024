@@ -30,7 +30,6 @@ public class CitiBikeController {
     GeoPosition startgp;
     GeoPosition endgp;
     List<GeoPosition> routePoints = new ArrayList<>();
-    Set<Waypoint> waypoints = new HashSet<>();
 
     public CitiBikeController(JLabel fromLabel, JLabel toLabel, CitiBikeComponent view) {
         this.fromLabel = fromLabel;
@@ -92,21 +91,22 @@ public class CitiBikeController {
     }
 
     public void updateMap() {
-        waypoints = Set.of(
+        routePoints.clear();
+        routePoints.add(fromgp);
+        routePoints.add(startgp);
+        routePoints.add(endgp);
+        routePoints.add(togp);
+
+        routePainter = new RoutePainter(routePoints);
+        drawRoute();
+
+        waypointPainter.setWaypoints(Set.of(
                 new DefaultWaypoint(fromgp),
                 new DefaultWaypoint(startgp),
                 new DefaultWaypoint(endgp),
                 new DefaultWaypoint(togp)
-        );
+        ));
 
-        routePoints.clear();
-        routePoints.add(fromgp);
-        routePoints.add(togp);
-        routePoints.add(startgp);
-        routePoints.add(endgp);
-
-        routePainter = new RoutePainter(routePoints);
-        drawRoute();
 
         zoomToFit();
     }
