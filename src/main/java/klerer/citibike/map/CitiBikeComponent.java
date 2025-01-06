@@ -14,8 +14,6 @@ import java.util.List;
 
 public class CitiBikeComponent extends JComponent {
     private final JXMapViewer mapViewer;
-    private GeoPosition from;
-    private GeoPosition to;
 
     public CitiBikeComponent() {
         mapViewer = new JXMapViewer();
@@ -42,22 +40,6 @@ public class CitiBikeComponent extends JComponent {
         List<Painter<JXMapViewer>> painter = List.of(routePainter, waypointPainter);
         CompoundPainter<JXMapViewer> compoundPainter = new CompoundPainter<>(painter);
         mapViewer.setOverlayPainter(compoundPainter);
-    }
-
-    public GeoPosition getFrom() {
-        return from;
-    }
-
-    public void setFrom(GeoPosition from) {
-        this.from = from;
-    }
-
-    public GeoPosition getTo() {
-        return to;
-    }
-
-    public void setTo(GeoPosition to) {
-        this.to = to;
     }
 
     public JXMapViewer getMapViewer() {

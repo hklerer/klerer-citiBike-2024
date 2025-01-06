@@ -51,8 +51,5 @@ public class CitiBikeFrame extends JFrame {
         add(controls, BorderLayout.SOUTH);
         add(view, BorderLayout.CENTER);
 
-        //controller.drawRoute();
     }
-
-
 }

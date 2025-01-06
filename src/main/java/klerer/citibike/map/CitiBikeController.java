@@ -22,8 +22,6 @@ public class CitiBikeController {
     JLabel toLabel;
     RoutePainter routePainter;
     WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
-    Location from;
-    Location to;
     LambdaService lambdaService = new LambdaServiceFactory().getService();
     GeoPosition fromgp;
     GeoPosition togp;
@@ -44,32 +42,12 @@ public class CitiBikeController {
                 Point2D.Double point = new Point2D.Double(x, y);
                 GeoPosition position = view.getMapViewer().convertPointToGeoPosition(point);
 
-                if (view.getFrom() == null) {
-                    view.setFrom(position);
+                if (fromgp == null) {
                     fromgp = position;
                     fromLabel.setText(fromgp.getLatitude() + ", " + fromgp.getLongitude());
-                } else {
-                    view.setTo(position);
+                } else if (togp == null) {
                     togp = position;
-                    fromLabel.setText(fromgp.getLatitude() + ", " + fromgp.getLongitude());
-
-                }
-
-                fromgp = view.getFrom();
-                togp = view.getTo();
-
-                if (fromgp != null && togp != null) {
-                    fromLabel.setText(fromgp.getLatitude() + ", " + fromgp.getLongitude());
                     toLabel.setText(togp.getLatitude() + ", " + togp.getLongitude());
-
-                    if (from != null) {
-                        from.lat = fromgp.getLatitude();
-                        from.lon = fromgp.getLongitude();
-                    }
-                    if (to != null) {
-                        to.lat = togp.getLatitude();
-                        to.lon = togp.getLongitude();
-                    }
                 }
             }
         });
@@ -106,7 +84,6 @@ public class CitiBikeController {
                 new DefaultWaypoint(endgp),
                 new DefaultWaypoint(togp)
         ));
-
 
         zoomToFit();
     }
