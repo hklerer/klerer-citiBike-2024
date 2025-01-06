@@ -17,17 +17,17 @@ import java.awt.geom.Point2D;
 import java.util.*;
 
 public class CitiBikeController {
-    CitiBikeComponent view;
-    JLabel fromLabel;
-    JLabel toLabel;
-    RoutePainter routePainter;
-    WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
-    LambdaService lambdaService = new LambdaServiceFactory().getService();
-    GeoPosition fromgp;
-    GeoPosition togp;
-    GeoPosition startgp;
-    GeoPosition endgp;
-    List<GeoPosition> routePoints = new ArrayList<>();
+    private CitiBikeComponent view;
+    private JLabel fromLabel;
+    private JLabel toLabel;
+    private RoutePainter routePainter;
+    private WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
+    private LambdaService lambdaService = new LambdaServiceFactory().getService();
+    private GeoPosition fromgp;
+    private GeoPosition togp;
+    private GeoPosition startgp;
+    private GeoPosition endgp;
+    private List<GeoPosition> routePoints = new ArrayList<>();
 
     public CitiBikeController(JLabel fromLabel, JLabel toLabel, CitiBikeComponent view) {
         this.fromLabel = fromLabel;
