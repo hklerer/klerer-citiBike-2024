@@ -10,5 +10,5 @@ The project uses AWS Lambda, S3, and JXMapViewer to create a quick and efficient
 
 ## CitiBike JSON Files
 JSON files containing the information about the CitiBike Stations
-* ![Station Information](https://gbfs.citibikenyc.com/gbfs/en/station_information.json)
-* ![Station Status](https://gbfs.citibikenyc.com/gbfs/en/station_status.json)
+* [Station Information](https://gbfs.citibikenyc.com/gbfs/en/station_information.json)
+* [Station Status](https://gbfs.citibikenyc.com/gbfs/en/station_status.json)
