@@ -20,13 +20,16 @@ import java.time.Duration;
 import java.time.Instant;
 
 public class StationsCache {
+    //CHECKSTYLE:OFF
     private final String BUCKET_NAME = "klerer.citibike";
     private final String KEY_NAME = "station_information.json";
+    //CHECKSTYLE:ON
     private Instant lastModified;
     private Stations stations;
     private Gson gson = new Gson();
     CitiBikeService service;
     S3Client s3Client;
+
     public StationsCache() {
         Region region = Region.US_EAST_2;
         this.s3Client = S3Client.builder()
@@ -58,8 +61,7 @@ public class StationsCache {
                     .build();
             s3Client.putObject(putObjectRequest, RequestBody.fromString(gson.toJson(stations)));
             lastModified = Instant.now();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
