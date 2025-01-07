@@ -20,6 +20,7 @@ public class CitiBikeRequestHandler implements RequestHandler<APIGatewayProxyReq
 
         CitiBikeServiceFactory factory = new CitiBikeServiceFactory();
         CitiBikeService service = factory.getService();
+        StationsCache stationsCache = new StationsCache();
 
         Stations stationInfo = service.stationInfo().blockingGet();
         Stations stationStatus = service.stationStatus().blockingGet();
