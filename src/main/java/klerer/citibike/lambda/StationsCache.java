@@ -41,7 +41,7 @@ public class StationsCache {
     }
 
     public Stations getStations() {
-        boolean moreThanOneHour = s3Age();
+        boolean moreThanOneHour = Duration.between(lastModified, Instant.now()).toHours() >= 1;
         if (stations != null && lastModified != null && moreThanOneHour) {
             return stations;
         } else if (stations == null && (moreThanOneHour || lastModified == null)) {
