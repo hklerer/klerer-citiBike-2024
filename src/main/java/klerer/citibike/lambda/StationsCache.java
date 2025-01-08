@@ -54,6 +54,7 @@ public class StationsCache {
         }
         return stations;
     }
+
     public void writeToS3() {
         try {
             stations = service.stationInfo().blockingGet();
