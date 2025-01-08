@@ -68,6 +68,7 @@ public class StationsCache {
             e.printStackTrace();
         }
     }
+
     public void readFromS3() {
         HeadObjectRequest headObjectRequest = HeadObjectRequest.builder()
                 .bucket(BUCKET_NAME)
