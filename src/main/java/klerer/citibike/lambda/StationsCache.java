@@ -41,10 +41,10 @@ public class StationsCache {
     }
 
     public Stations getStations() {
-        boolean moreThanOneHour = Duration.between(lastModified, Instant.now()).toHours() >= 1;
-        if (stations != null && lastModified != null && moreThanOneHour) {
+        long duration = Duration.between(lastModified, Instant.now()).toHours();
+        if (stations != null && lastModified != null && duration < 1) {
             return stations;
-        } else if (stations == null && (moreThanOneHour || lastModified == null)) {
+        } else if (stations == null && (duration < 1 || lastModified == null)) {
             writeToS3();
         } else {
             readFromS3();

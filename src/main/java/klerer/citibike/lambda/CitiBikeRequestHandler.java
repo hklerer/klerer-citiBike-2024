@@ -12,6 +12,7 @@ import klerer.citibike.json.Stations;
 
 public class CitiBikeRequestHandler implements RequestHandler<APIGatewayProxyRequestEvent, CitiBikeResponse> {
     StationsCache stationsCache = new StationsCache();
+
     @Override
     public CitiBikeResponse handleRequest(APIGatewayProxyRequestEvent event, Context context) {
         String body = event.getBody();
