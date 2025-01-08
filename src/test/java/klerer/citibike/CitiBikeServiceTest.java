@@ -39,5 +39,4 @@ public class CitiBikeServiceTest {
         assertNotEquals(0, station.num_ebikes_available);
         assertNotEquals(0, station.num_docks_available);
     }
-
 }
