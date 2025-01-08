@@ -41,18 +41,19 @@ public class StationsCache {
     }
 
     public Stations getStations() {
-        long duration = Duration.between(lastModified, Instant.now()).toHours();
         boolean age = s3Age();
-        if (stations != null && lastModified != null && duration < 1) {
+        if (stations != null && lastModified != null && Duration.between(lastModified, Instant.now()).toHours() <= 1) {
             return stations;
-        } else if (stations == null && (age || lastModified == null)) {
+        } else if ((stations != null && lastModified != null
+                && Duration.between(lastModified, Instant.now()).toHours() > 1)
+                || (stations == null && !age)) {
             writeToS3();
+
         } else {
             readFromS3();
         }
         return stations;
     }
-
     public void writeToS3() {
         try {
             stations = service.stationInfo().blockingGet();
