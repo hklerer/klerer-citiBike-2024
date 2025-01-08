@@ -41,12 +41,12 @@ public class StationsCache {
     }
 
     public Stations getStations() {
-        boolean age = s3Age();
+        boolean moreThanOneHour = s3Age();
         if (stations != null && lastModified != null && Duration.between(lastModified, Instant.now()).toHours() <= 1) {
             return stations;
         } else if ((stations != null && lastModified != null
                 && Duration.between(lastModified, Instant.now()).toHours() > 1)
-                || (stations == null && !age)) {
+                || (stations == null && !moreThanOneHour)) {
             writeToS3();
 
         } else {
@@ -68,17 +68,26 @@ public class StationsCache {
             e.printStackTrace();
         }
     }
-
     public void readFromS3() {
-        GetObjectRequest getObjectRequest = GetObjectRequest
-                .builder()
+        HeadObjectRequest headObjectRequest = HeadObjectRequest.builder()
                 .bucket(BUCKET_NAME)
                 .key(KEY_NAME)
                 .build();
 
-        InputStream in = s3Client.getObject(getObjectRequest);
-        stations = gson.fromJson(new InputStreamReader(in), Stations.class);
-        lastModified = Instant.now();
+        try {
+            HeadObjectResponse headObjectResponse = s3Client.headObject(headObjectRequest);
+            lastModified = headObjectResponse.lastModified();
+
+            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                    .bucket(BUCKET_NAME)
+                    .key(KEY_NAME)
+                    .build();
+
+            InputStream in = s3Client.getObject(getObjectRequest);
+            stations = gson.fromJson(new InputStreamReader(in), Stations.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean s3Age() {
