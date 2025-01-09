@@ -37,7 +37,7 @@ public class StationsCache {
                 .credentialsProvider(DefaultCredentialsProvider.create())
                 .build();
 
-        this.service = new CitiBikeServiceFactory().getService();
+        this.service = getService();
     }
 
     public Stations getStations() {
@@ -104,5 +104,11 @@ public class StationsCache {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public CitiBikeService getService() {
+        CitiBikeServiceFactory factory = new CitiBikeServiceFactory();
+        service = factory.getService();
+        return service;
     }
 }

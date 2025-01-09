@@ -19,8 +19,7 @@ public class CitiBikeRequestHandler implements RequestHandler<APIGatewayProxyReq
         Gson gson = new Gson();
         CitiBikeRequest request = gson.fromJson(body, CitiBikeRequest.class);
 
-        CitiBikeServiceFactory factory = new CitiBikeServiceFactory();
-        CitiBikeService service = factory.getService();
+        CitiBikeService service = stationsCache.getService();
 
         Stations stationInfo = stationsCache.getStations();
         Stations stationStatus = service.stationStatus().blockingGet();
