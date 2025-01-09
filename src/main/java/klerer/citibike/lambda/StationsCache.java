@@ -1,7 +1,6 @@
 package klerer.citibike.lambda;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 import klerer.citibike.CitiBikeService;
 import klerer.citibike.CitiBikeServiceFactory;
 import klerer.citibike.json.Stations;
