@@ -27,9 +27,9 @@ public class StationsCache {
     private Instant lastModified;
     private Stations stations;
     private Gson gson = new Gson();
-    CitiBikeService service;
-    S3Client s3Client;
     CitiBikeServiceFactory factory = new CitiBikeServiceFactory();
+    CitiBikeService service = factory.getService();
+    S3Client s3Client;
 
     public StationsCache() {
         Region region = Region.US_EAST_2;
@@ -108,7 +108,6 @@ public class StationsCache {
     }
 
     public CitiBikeService getService() {
-        service = factory.getService();
         return service;
     }
 }
