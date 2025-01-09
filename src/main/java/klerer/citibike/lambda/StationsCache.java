@@ -29,6 +29,7 @@ public class StationsCache {
     private Gson gson = new Gson();
     CitiBikeService service;
     S3Client s3Client;
+    CitiBikeServiceFactory factory = new CitiBikeServiceFactory();
 
     public StationsCache() {
         Region region = Region.US_EAST_2;
@@ -107,7 +108,6 @@ public class StationsCache {
     }
 
     public CitiBikeService getService() {
-        CitiBikeServiceFactory factory = new CitiBikeServiceFactory();
         service = factory.getService();
         return service;
     }
