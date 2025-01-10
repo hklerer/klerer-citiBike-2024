@@ -11,6 +11,7 @@ import klerer.citibike.json.Station;
 import klerer.citibike.json.Stations;
 
 public class CitiBikeRequestHandler implements RequestHandler<APIGatewayProxyRequestEvent, CitiBikeResponse> {
+    StationsCache stationsCache = new StationsCache();
 
     @Override
     public CitiBikeResponse handleRequest(APIGatewayProxyRequestEvent event, Context context) {
@@ -18,10 +19,9 @@ public class CitiBikeRequestHandler implements RequestHandler<APIGatewayProxyReq
         Gson gson = new Gson();
         CitiBikeRequest request = gson.fromJson(body, CitiBikeRequest.class);
 
-        CitiBikeServiceFactory factory = new CitiBikeServiceFactory();
-        CitiBikeService service = factory.getService();
+        CitiBikeService service = stationsCache.getService();
 
-        Stations stationInfo = service.stationInfo().blockingGet();
+        Stations stationInfo = stationsCache.getStations();
         Stations stationStatus = service.stationStatus().blockingGet();
         FindStations findStations = new FindStations(stationInfo, stationStatus);
 

@@ -30,5 +30,4 @@ class CitiBikeRequestHandlerTest {
         assertEquals(response.end.name, "Berry St & N 8 St");
 
     }
-
 }
