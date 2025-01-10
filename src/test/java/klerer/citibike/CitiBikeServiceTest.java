@@ -31,7 +31,7 @@ public class CitiBikeServiceTest {
 
         // when
         Stations info = service.stationStatus().blockingGet();
-        Station station = info.data.stations[4];
+        Station station = info.data.stations[2];
 
         // then
         assertNotNull(station.station_id);
